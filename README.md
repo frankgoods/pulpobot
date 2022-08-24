@@ -12,11 +12,11 @@ Bot is very simple, very human.
 
 All you need is right here:
 1) Create a telegram bot, I assume you know how to do it (if not, just look here https://core.telegram.org/bots/)
-2) Place your bot token to `priv/token` file
+2) Place your bot token to the `priv/token` file
 3) Change the secret password in the `priv/password` file. By default it's just the word `pass`
 4) Run the bot!
 5) Share the secret password with your friend or husband or whoever is going to enjoy your bot's company (but we know, it is you they going to enjoy!)
-6) Tell your dear friend to send the following command `/start <your secret password you just created in the item 3>`
+6) Tell your dear friend to send the following command `/start <your secret password you just created in the item 3>` to the bot
 7) That's all! Bot is going to recognize its target subscriber and start a conversation with her/him.
 
 ## Tailoring bot's text samples
