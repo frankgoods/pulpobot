@@ -12,16 +12,20 @@ import (
 type Repository textbuilder.Repository
 
 type Talker struct {
-	chatID int64
-	sendID chan<- int64
-	bot    *tgbotapi.BotAPI
-	tb     *textbuilder.TextBuilder
+	chatID    int64
+	sendID    chan<- int64
+	bot       *tgbotapi.BotAPI
+	tb        *textbuilder.TextBuilder
+	minDelay  int
+	randDelay int
 }
 
-func NewTalker(bot *tgbotapi.BotAPI, repo Repository) *Talker {
+func NewTalker(bot *tgbotapi.BotAPI, repo Repository, minDelay int, randDelay int) *Talker {
 	return &Talker{
-		bot: bot,
-		tb:  textbuilder.NewTextBuilder(repo),
+		bot:       bot,
+		tb:        textbuilder.NewTextBuilder(repo),
+		minDelay:  minDelay,
+		randDelay: randDelay,
 	}
 }
 
@@ -37,7 +41,7 @@ func (t *Talker) Talk(chatID int64) {
 		t.sendID = ch
 
 		go func(recieveID <-chan int64, bot *tgbotapi.BotAPI, chatID int64, tb *textbuilder.TextBuilder) {
-			timer := time.NewTimer(randTime())
+			timer := time.NewTimer(t.randTime())
 
 			for {
 				select {
@@ -45,7 +49,7 @@ func (t *Talker) Talk(chatID int64) {
 					say := t.tb.Say()
 					log.Println("Sending message:", say)
 					t.Send(chatID, say)
-					timer.Reset(randTime())
+					timer.Reset(t.randTime())
 				case newID := <-recieveID:
 					chatID = newID
 				}
@@ -63,11 +67,11 @@ func (t *Talker) Reply(chatID int64) {
 	t.Send(chatID, reply)
 }
 
-func randTime() time.Duration {
+func (t *Talker) randTime() time.Duration {
 	if h := time.Now().Hour(); h == 23 || h < 9 {
 		return time.Duration(9-h%23) * time.Hour
 	}
-	return time.Duration(rand.Intn(30)+35) * time.Minute
+	return time.Duration(rand.Intn(t.randDelay)+t.minDelay) * time.Minute
 }
 
 func (t *Talker) Send(chatID int64, text string) {
