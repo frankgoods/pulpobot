@@ -2,16 +2,22 @@ package main
 
 import (
 	"log"
-	"os"
+	"math/rand"
+	"time"
 
+	"pulpobot/internal/repository"
 	"pulpobot/internal/router"
+	"pulpobot/internal/talker"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 func main() {
 
-	token, err := loadToken()
+	rand.Seed(time.Now().Unix())
+
+	repo := repository.NewRepository("priv1")
+	token, err := repo.LoadToken()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,17 +38,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	router := router.NewRouter(bot)
+	talker := talker.NewTalker(bot, repo)
+	router := router.NewRouter(bot, talker, repo)
 
 	for update := range updates {
 		router.HandleUpdate(update)
 	}
-}
-
-func loadToken() (string, error) {
-	token, err := os.ReadFile("priv/token")
-	if err != nil {
-		return "", err
-	}
-	return string(token), nil
 }

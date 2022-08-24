@@ -1,0 +1,18 @@
+{
+    "Begin":
+        ["Friend, ","Bro, ","Hey! ","Maaan, ","My man, ","Dude, ","Sir, "],
+    "Middle":
+        ["all good ","you have a problem ","just do it ","stop now ","keep doing it ","you should reconsider "],
+    "End":
+        ["and relax","but be yourself","but be a man","this is bullshit!","and forget about everything"],
+    "Whole":
+        ["Your life, your choice","I feel bad for you!",
+        "Nonsense...And what's more, it doesn't rhyme. All decent predictions rhyme",
+        "People linked by destiny will always find each other",
+        "People, they like to invent monsters and monstrosities. Then they seem less monstrous themselves",
+        "I manage because I have to. Because I've no other way out","This world doesn't need a hero. It needs a professional",
+        "It’s like ordering a pie and finding it has no filling"
+        ],
+    "ReplyText":
+        ["Ok", "Accepted", "Got you!", "Thank you"]
+}
